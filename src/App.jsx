@@ -78,7 +78,10 @@ export default function App() {
 
   // Restart Round
   const startRound = useCallback((startingSymbol = humanSymbol, mode = gameMode) => {
-    setBoard(Array(9).fill(null));
+    const emptyBoard = Array(9).fill(null);
+    boardRef.current = emptyBoard;
+    isGameActiveRef.current = true;
+    setBoard(emptyBoard);
     setCurrentPlayer('X');
     setIsGameActive(true);
     setWinner(null);
@@ -94,6 +97,7 @@ export default function App() {
       if (prevBoard[index] !== null) return prevBoard;
       const nextBoard = [...prevBoard];
       nextBoard[index] = player;
+      boardRef.current = nextBoard; // Synchronously update ref
 
       sound.playMove(player);
 
@@ -102,6 +106,7 @@ export default function App() {
         setWinner(player);
         setWinningLine(winResult);
         setIsGameActive(false);
+        isGameActiveRef.current = false;
 
         setScores(prev => ({
           ...prev,
@@ -118,6 +123,7 @@ export default function App() {
       if (checkDraw(nextBoard)) {
         setIsDraw(true);
         setIsGameActive(false);
+        isGameActiveRef.current = false;
 
         setScores(prev => ({
           ...prev,
@@ -163,8 +169,7 @@ export default function App() {
       currentPlayer === aiSymbol &&
       isGameActive &&
       !winner &&
-      !isDraw &&
-      !isAiThinking
+      !isDraw
     ) {
       setIsAiThinking(true);
       const timer = setTimeout(() => {
@@ -173,16 +178,22 @@ export default function App() {
           return;
         }
 
-        const bestIndex = getBestMove(boardRef.current, aiSymbol, humanSymbol, aiDifficulty);
+        const currentBoard = boardRef.current;
+        const bestIndex = getBestMove(currentBoard, aiSymbol, humanSymbol, aiDifficulty);
         setIsAiThinking(false);
         if (bestIndex !== -1 && bestIndex !== null) {
           executeMove(bestIndex, aiSymbol);
         }
-      }, 220);
+      }, 250);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        setIsAiThinking(false);
+      };
+    } else {
+      setIsAiThinking(false);
     }
-  }, [gameMode, currentPlayer, aiSymbol, humanSymbol, aiDifficulty, isGameActive, winner, isDraw, isAiThinking, executeMove]);
+  }, [gameMode, currentPlayer, aiSymbol, humanSymbol, aiDifficulty, isGameActive, winner, isDraw, executeMove]);
 
   // Mode change handler
   const handleModeChange = (newMode) => {

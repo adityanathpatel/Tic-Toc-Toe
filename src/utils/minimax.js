@@ -119,10 +119,12 @@ export function getBestMove(board, aiSymbol, humanSymbol, difficulty = 'unbeatab
 
   let bestScore = -Infinity;
   let optimalMoves = [];
+  let alpha = -Infinity;
+  let beta = Infinity;
 
   for (let move of availableMoves) {
     board[move] = aiSymbol;
-    const score = minimax(board, 0, false, aiSymbol, humanSymbol);
+    const score = minimax(board, 0, false, aiSymbol, humanSymbol, alpha, beta);
     board[move] = null;
 
     if (score > bestScore) {
@@ -131,6 +133,7 @@ export function getBestMove(board, aiSymbol, humanSymbol, difficulty = 'unbeatab
     } else if (score === bestScore) {
       optimalMoves.push(move);
     }
+    alpha = Math.max(alpha, bestScore);
   }
 
   return optimalMoves[Math.floor(Math.random() * optimalMoves.length)];

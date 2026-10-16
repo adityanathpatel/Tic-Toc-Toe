@@ -88,6 +88,7 @@ Make sure you have [Node.js](https://nodejs.org/) (v18 or higher) installed on y
 │   └── main.jsx         # React entry point
 ├── test-engine.js       # Headless automated test suite
 ├── CODE_OF_CONDUCT.md   # Community guidelines & pledge
+├── CONTRIBUTING.md      # Contribution workflow & guidelines
 ├── SECURITY.md          # Security policy & vulnerability reporting
 ├── package.json         # Dependencies & scripts
 └── vite.config.js       # Vite configuration
@@ -101,7 +102,13 @@ For vulnerability disclosures and security policies, please review our [Security
 
 ---
 
-## 🤝 Code of Conduct
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Please check our [Contributing Guidelines](CONTRIBUTING.md) to get started.
+
+---
+
+## 📜 Code of Conduct
 
 We are committed to providing an open, friendly, and harassment-free environment for everyone. Please read our [Code of Conduct](CODE_OF_CONDUCT.md).
 

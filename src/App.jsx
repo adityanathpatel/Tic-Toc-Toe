@@ -5,7 +5,7 @@ import ScoreBoard from './components/ScoreBoard';
 import StatusIndicator from './components/StatusIndicator';
 import GameBoard from './components/GameBoard';
 import ActionToolbar from './components/ActionToolbar';
-import KeyboardHint from './components/KeyboardHint';
+import Footer from './components/Footer';
 import ResultModal from './components/ResultModal';
 import HelpModal from './components/HelpModal';
 import { checkWin, checkDraw, getBestMove } from './utils/minimax';
@@ -341,7 +341,7 @@ export default function App() {
           onResetScores={handleResetScores}
         />
 
-        <KeyboardHint />
+        <Footer onOpenHelp={() => setIsHelpModalOpen(true)} />
       </div>
 
       <ResultModal

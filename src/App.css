@@ -728,8 +728,19 @@
 }
 
 /* ==========================================================================
-   Keyboard Shortcuts Hint Legend
+   Impressive App Footer
    ========================================================================== */
+.app-footer {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
 .keyboard-hint {
   display: flex;
   flex-wrap: wrap;
@@ -737,7 +748,6 @@
   gap: 0.85rem;
   font-size: 0.75rem;
   color: var(--text-subtle);
-  margin-top: auto;
 }
 
 .keyboard-hint kbd {
@@ -748,6 +758,102 @@
   font-family: inherit;
   font-size: 0.7rem;
   color: var(--text-muted);
+}
+
+.footer-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+.footer-credits {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.heart-icon {
+  display: inline-block;
+  font-size: 0.9rem;
+  animation: pulseHeart 1.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes pulseHeart {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(255, 65, 108, 0.4));
+  }
+  50% {
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 8px rgba(255, 65, 108, 0.8));
+  }
+}
+
+.author-link {
+  font-weight: 700;
+  background: linear-gradient(90deg, #00f2fe, #4facfe, #ff416c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  transition: filter var(--transition-normal);
+  position: relative;
+}
+
+.author-link:hover {
+  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.6));
+}
+
+.author-link:focus-visible {
+  outline: 2px solid var(--x-primary);
+  border-radius: 4px;
+}
+
+.footer-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-link-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.775rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.footer-link-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  border-color: var(--border-active);
+  transform: translateY(-1px);
+}
+
+.footer-link-pill:focus-visible {
+  outline: 2px solid var(--x-primary);
+}
+
+.footer-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================

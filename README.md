@@ -1,12 +1,20 @@
 # 🎮 Tic-Tac-Toe Master
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-00C7B7.svg?style=flat&logo=netlify)](https://tic-tac-toe-by-aadi.netlify.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![React 19](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8-646cff.svg)](https://vite.dev/)
 [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![Security Policy](https://img.shields.io/badge/Security-Policy-brightgreen.svg)](SECURITY.md)
 
-A modern, fast, and responsive Tic-Tac-Toe web game built with **React 19** and **Vite**. Features an unbeatable **Minimax AI** (with Alpha-Beta pruning), local **2-Player (PvP)** mode, **synthesized Web Audio API sound effects**, and persistent score tracking.
+A modern, fast, and responsive Tic-Tac-Toe web game built with **React 19** and **Vite**. Features **Online Real-Time Multiplayer (WebRTC P2P)** with 6-digit room codes, an unbeatable **Minimax AI** (with Alpha-Beta pruning), local **2-Player (PvP)** mode, **synthesized Web Audio API sound effects**, and persistent score tracking.
+
+---
+
+## 🌐 Live Demo
+
+Play the deployed game directly in your browser:  
+👉 **[https://tic-tac-toe-by-aadi.netlify.app/](https://tic-tac-toe-by-aadi.netlify.app/)**
 
 ---
 
@@ -118,6 +126,7 @@ We are committed to providing an open, friendly, and harassment-free environment
 ## 👤 Author
 
 **Aditya Nath Patel**
+- 🌐 Live Demo: [https://tic-tac-toe-by-aadi.netlify.app/](https://tic-tac-toe-by-aadi.netlify.app/)
 - GitHub: [@adityanathpatel](https://github.com/adityanathpatel)
 - Repository: [Tic-Tac-Toe](https://github.com/adityanathpatel/Tic-Toc-Toe)
 

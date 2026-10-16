@@ -30,6 +30,21 @@ export default function Footer({ onOpenHelp }) {
 
         <div className="footer-links">
           <a
+            href="https://tic-tac-toe-by-aadi.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link-pill"
+            title="Open Live App on Netlify"
+          >
+            <svg className="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>Live Demo</span>
+          </a>
+
+          <a
             href="https://github.com/adityanathpatel/Tic-Toc-Toe"
             target="_blank"
             rel="noopener noreferrer"

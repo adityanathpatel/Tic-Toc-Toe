@@ -5,7 +5,7 @@
   "description": "An unbeatable cyber-styled Tic-Tac-Toe web application powered by React 19, Minimax AI with Alpha-Beta pruning, and synthesized Web Audio API sound.",
   "author": "Aditya Nath Patel (https://github.com/adityanathpatel)",
   "license": "MIT",
-  "homepage": "https://github.com/adityanathpatel/Tic-Toc-Toe",
+  "homepage": "https://tic-tac-toe-by-aadi.netlify.app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/adityanathpatel/Tic-Toc-Toe.git"

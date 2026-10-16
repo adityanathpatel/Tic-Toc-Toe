@@ -4,6 +4,7 @@
 [![React 19](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8-646cff.svg)](https://vite.dev/)
 [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Security Policy](https://img.shields.io/badge/Security-Policy-brightgreen.svg)](SECURITY.md)
 
 A modern, fast, and responsive Tic-Tac-Toe web game built with **React 19** and **Vite**. Features an unbeatable **Minimax AI** (with Alpha-Beta pruning), local **2-Player (PvP)** mode, **synthesized Web Audio API sound effects**, and persistent score tracking.
 
@@ -87,9 +88,16 @@ Make sure you have [Node.js](https://nodejs.org/) (v18 or higher) installed on y
 │   └── main.jsx         # React entry point
 ├── test-engine.js       # Headless automated test suite
 ├── CODE_OF_CONDUCT.md   # Community guidelines & pledge
+├── SECURITY.md          # Security policy & vulnerability reporting
 ├── package.json         # Dependencies & scripts
 └── vite.config.js       # Vite configuration
 ```
+
+---
+
+## 🔒 Security
+
+For vulnerability disclosures and security policies, please review our [Security Policy](SECURITY.md).
 
 ---
 

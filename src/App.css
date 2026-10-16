@@ -5,9 +5,9 @@
 .app-container {
   position: relative;
   z-index: 1;
-  max-width: 540px;
+  max-width: 560px;
   margin: 0 auto;
-  padding: 0.45rem 1rem 0.65rem;
+  padding: 1rem 1rem 3.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -732,13 +732,14 @@
    ========================================================================== */
 .app-footer {
   width: 100%;
-  margin-top: auto;
-  padding-top: 0.45rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
   border-top: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.65rem;
 }
 
 .keyboard-hint {
@@ -1195,43 +1196,5 @@
 
   .keyboard-hint {
     display: none;
-  }
-}
-
-@media (max-height: 780px) {
-  :root {
-    --board-max-size: min(270px, 75vw, 32vh);
-  }
-  .app-container {
-    padding: 0.35rem 0.85rem 0.45rem;
-  }
-}
-
-@media (max-height: 680px) {
-  :root {
-    --board-max-size: min(230px, 70vw, 28vh);
-  }
-  .keyboard-hint {
-    display: none;
-  }
-  .app-header {
-    margin-bottom: 0.25rem;
-    padding-bottom: 0.25rem;
-  }
-  .controls-panel {
-    margin-bottom: 0.25rem;
-    padding: 0.25rem 0.65rem;
-  }
-  .score-board {
-    margin-bottom: 0.25rem;
-  }
-  .status-indicator-bar {
-    margin-bottom: 0.25rem;
-  }
-  .board-wrapper {
-    margin-bottom: 0.25rem;
-  }
-  .action-toolbar {
-    margin-bottom: 0.35rem;
   }
 }

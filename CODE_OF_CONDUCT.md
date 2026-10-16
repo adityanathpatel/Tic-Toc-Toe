@@ -24,7 +24,7 @@ Examples of unacceptable behavior:
 
 Project maintainers are responsible for clarifying standards of acceptable behavior and will take appropriate, fair, and corrective action in response to any instances of unacceptable behavior.
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project maintainer at **aditya.dhanus98@gmail.com**. All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by opening an issue or contacting the project maintainers through repository channels. All complaints will be reviewed and investigated promptly and fairly.
 
 ## Attribution
 

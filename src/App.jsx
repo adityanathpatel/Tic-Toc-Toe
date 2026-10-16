@@ -231,13 +231,16 @@ export default function App() {
   };
 
   // Reset scores handler
-  const handleResetScores = () => {
-    if (window.confirm('Are you sure you want to reset all match scores to zero?')) {
-      const reset = { X: 0, O: 0, ties: 0 };
-      setScores(reset);
-      sound.playClick();
+  const handleResetScores = useCallback(() => {
+    const reset = { X: 0, O: 0, ties: 0 };
+    setScores(reset);
+    try {
+      localStorage.setItem(STORAGE_KEY_SCORES, JSON.stringify(reset));
+    } catch (e) {
+      console.error('Failed to reset scores in localStorage', e);
     }
-  };
+    sound.playClick();
+  }, []);
 
   // Keyboard navigation & global shortcuts
   useEffect(() => {

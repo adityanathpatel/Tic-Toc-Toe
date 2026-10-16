@@ -18,7 +18,7 @@ export default function ActionToolbar({ onRestart, onResetScores }) {
   };
 
   return (
-    <footer className="action-toolbar">
+    <div className="action-toolbar" role="toolbar" aria-label="Game controls">
       <button
         id="restartBtn"
         className="action-btn primary-btn"
@@ -55,6 +55,6 @@ export default function ActionToolbar({ onRestart, onResetScores }) {
           </>
         )}
       </button>
-    </footer>
+    </div>
   );
 }

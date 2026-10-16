@@ -336,15 +336,33 @@
   background: linear-gradient(90deg, #d97706, #fbbf24);
 }
 
+@keyframes activeCardPulseX {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(0, 242, 254, 0.55);
+  }
+}
+
+@keyframes activeCardPulseO {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(255, 65, 108, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(255, 65, 108, 0.55);
+  }
+}
+
 .player-x-card.active-turn {
   border-color: var(--x-primary);
-  box-shadow: 0 0 20px var(--x-glow);
+  animation: activeCardPulseX 2.2s infinite ease-in-out;
   transform: translateY(-2px);
 }
 
 .player-o-card.active-turn {
   border-color: var(--o-primary);
-  box-shadow: 0 0 20px var(--o-glow);
+  animation: activeCardPulseO 2.2s infinite ease-in-out;
   transform: translateY(-2px);
 }
 
@@ -431,6 +449,21 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(12px);
   transition: all var(--transition-normal);
+}
+
+.status-chip.chip-x-turn {
+  border-color: rgba(0, 242, 254, 0.45);
+  box-shadow: 0 4px 20px rgba(0, 242, 254, 0.2);
+}
+
+.status-chip.chip-o-turn {
+  border-color: rgba(255, 65, 108, 0.45);
+  box-shadow: 0 4px 20px rgba(255, 65, 108, 0.2);
+}
+
+.status-chip.chip-thinking {
+  border-color: rgba(251, 191, 36, 0.45);
+  box-shadow: 0 4px 20px rgba(251, 191, 36, 0.2);
 }
 
 .turn-dot {
@@ -524,6 +557,16 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
+.cell.preview-x:hover:not(.taken):not(:disabled) {
+  border-color: rgba(0, 242, 254, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 242, 254, 0.25);
+}
+
+.cell.preview-o:hover:not(.taken):not(:disabled) {
+  border-color: rgba(255, 65, 108, 0.5);
+  box-shadow: 0 8px 24px rgba(255, 65, 108, 0.25);
+}
+
 .cell:active:not(.taken):not(:disabled) {
   transform: translateY(0) scale(0.98);
 }
@@ -571,29 +614,38 @@
   animation: drawCircle 0.35s ease-out forwards;
 }
 
-/* Ghost Preview */
-.cell.preview-x::before {
-  content: '✕';
+/* Ghost Preview (Clean on idle, vibrant on hover/focus) */
+.cell.preview-x::before,
+.cell.preview-o::before {
   position: absolute;
   font-family: var(--font-heading);
-  font-size: 3.5rem;
   font-weight: 700;
-  color: var(--x-primary);
-  opacity: 0.18;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  opacity: 0;
+  transform: scale(0.75);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cell.preview-x::before {
+  content: '✕';
+  font-size: 3.2rem;
+  color: var(--x-primary);
+  filter: drop-shadow(0 0 10px var(--x-glow));
 }
 
 .cell.preview-o::before {
   content: '○';
-  position: absolute;
-  font-family: var(--font-heading);
-  font-size: 4rem;
-  font-weight: 700;
+  font-size: 3.8rem;
   color: var(--o-primary);
-  opacity: 0.18;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
+  filter: drop-shadow(0 0 10px var(--o-glow));
+}
+
+.cell.preview-x:hover::before,
+.cell.preview-x:focus-visible::before,
+.cell.preview-o:hover::before,
+.cell.preview-o:focus-visible::before {
+  opacity: 0.38;
+  transform: scale(1);
 }
 
 /* Winner Cell Highlight */
@@ -893,6 +945,16 @@
   transform: scale(1);
   transition: transform var(--transition-spring);
   overflow: hidden;
+}
+
+.modal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--x-primary), #a855f7, var(--o-primary));
 }
 
 .modal-backdrop.hidden .modal-card {

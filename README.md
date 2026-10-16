@@ -114,6 +114,14 @@ We are committed to providing an open, friendly, and harassment-free environment
 
 ---
 
+## 👤 Author
+
+**Aditya Nath Patel**
+- GitHub: [@adityanathpatel](https://github.com/adityanathpatel)
+- Repository: [Tic-Tac-Toe](https://github.com/adityanathpatel/Tic-Toc-Toe)
+
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).

@@ -93,54 +93,54 @@ export default function App() {
 
   // Execute a valid move
   const executeMove = useCallback((index, player) => {
-    setBoard(prevBoard => {
-      if (prevBoard[index] !== null) return prevBoard;
-      const nextBoard = [...prevBoard];
-      nextBoard[index] = player;
-      boardRef.current = nextBoard; // Synchronously update ref
+    // Check if cell is occupied or game inactive
+    if (boardRef.current[index] !== null || !isGameActiveRef.current) return;
 
-      sound.playMove(player);
+    const nextBoard = [...boardRef.current];
+    nextBoard[index] = player;
+    boardRef.current = nextBoard;
+    setBoard(nextBoard);
 
-      const winResult = checkWin(nextBoard);
-      if (winResult) {
-        setWinner(player);
-        setWinningLine(winResult);
-        setIsGameActive(false);
-        isGameActiveRef.current = false;
+    sound.playMove(player);
 
-        setScores(prev => ({
-          ...prev,
-          [player]: prev[player] + 1
-        }));
+    const winResult = checkWin(nextBoard);
+    if (winResult) {
+      setWinner(player);
+      setWinningLine(winResult);
+      setIsGameActive(false);
+      isGameActiveRef.current = false;
 
-        sound.playWin();
-        setTimeout(() => {
-          setIsResultModalOpen(true);
-        }, 500);
-        return nextBoard;
-      }
+      setScores(prev => ({
+        ...prev,
+        [player]: prev[player] + 1
+      }));
 
-      if (checkDraw(nextBoard)) {
-        setIsDraw(true);
-        setIsGameActive(false);
-        isGameActiveRef.current = false;
+      sound.playWin();
+      setTimeout(() => {
+        setIsResultModalOpen(true);
+      }, 500);
+      return;
+    }
 
-        setScores(prev => ({
-          ...prev,
-          ties: prev.ties + 1
-        }));
+    if (checkDraw(nextBoard)) {
+      setIsDraw(true);
+      setIsGameActive(false);
+      isGameActiveRef.current = false;
 
-        sound.playTie();
-        setTimeout(() => {
-          setIsResultModalOpen(true);
-        }, 450);
-        return nextBoard;
-      }
+      setScores(prev => ({
+        ...prev,
+        ties: prev.ties + 1
+      }));
 
-      // Switch turn
-      setCurrentPlayer(player === 'X' ? 'O' : 'X');
-      return nextBoard;
-    });
+      sound.playTie();
+      setTimeout(() => {
+        setIsResultModalOpen(true);
+      }, 450);
+      return;
+    }
+
+    // Switch turn
+    setCurrentPlayer(player === 'X' ? 'O' : 'X');
   }, []);
 
   // Handle cell interaction

@@ -1,0 +1,18 @@
+{
+  "name": "Tic-Tac-Toe Master - React & Minimax AI",
+  "short_name": "TicTacToe",
+  "description": "A modern, responsive, and unbeatable React Tic-Tac-Toe game featuring Minimax AI, Web Audio API sound, and local PvP.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64 128x128 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

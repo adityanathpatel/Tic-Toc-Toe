@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0a0e17"/>
+    </linearGradient>
+    <filter id="xGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#00f2fe" flood-opacity="0.8"/>
+    </filter>
+    <filter id="oGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ff416c" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bgGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+  <!-- X Symbol -->
+  <line x1="12" y1="12" x2="30" y2="30" stroke="#00f2fe" stroke-width="5" stroke-linecap="round" filter="url(#xGlow)"/>
+  <line x1="30" y1="12" x2="12" y2="30" stroke="#00f2fe" stroke-width="5" stroke-linecap="round" filter="url(#xGlow)"/>
+  <!-- O Symbol -->
+  <circle cx="45" cy="45" r="11" fill="none" stroke="#ff416c" stroke-width="5" stroke-linecap="round" filter="url(#oGlow)"/>
+</svg>

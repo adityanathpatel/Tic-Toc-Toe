@@ -5,9 +5,9 @@
 .app-container {
   position: relative;
   z-index: 1;
-  max-width: 580px;
+  max-width: 540px;
   margin: 0 auto;
-  padding: 0.65rem 1rem 1rem;
+  padding: 0.45rem 1rem 0.65rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,20 +23,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.65rem;
-  padding-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.35rem;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .brand-icon {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-md);
   background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(255, 65, 108, 0.15));
   border: 1px solid var(--border-subtle);
@@ -45,7 +45,7 @@
   justify-content: center;
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   letter-spacing: -1px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -73,7 +73,7 @@
 
 .brand-title {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 800;
   letter-spacing: 0.5px;
   background: linear-gradient(90deg, #ffffff, #d1d5db);
@@ -83,9 +83,9 @@
 }
 
 .brand-subtitle {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   color: var(--text-muted);
 }
 
@@ -138,12 +138,12 @@
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 0.55rem 0.85rem;
-  margin-bottom: 0.65rem;
+  padding: 0.35rem 0.75rem;
+  margin-bottom: 0.4rem;
   backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.3rem;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
 }
 
@@ -155,7 +155,7 @@
 }
 
 .control-label {
-  font-size: 0.825rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-muted);
   white-space: nowrap;
@@ -165,7 +165,7 @@
   display: flex;
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid var(--border-subtle);
-  padding: 3px;
+  padding: 2px;
   border-radius: var(--radius-full);
   gap: 2px;
 }
@@ -175,20 +175,20 @@
   border: none;
   color: var(--text-muted);
   font-family: var(--font-body);
-  font-size: 0.775rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.35rem 0.75rem;
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .pill-icon {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
 }
 
 .pill-btn:hover {
@@ -220,9 +220,9 @@
   border-radius: var(--radius-md);
   color: var(--text-main);
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.775rem;
   font-weight: 600;
-  padding: 0.4rem 2rem 0.4rem 0.85rem;
+  padding: 0.3rem 1.8rem 0.3rem 0.75rem;
   cursor: pointer;
   transition: all var(--transition-normal);
   width: 100%;
@@ -293,20 +293,20 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.65rem;
-  margin-bottom: 0.65rem;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .score-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 0.5rem 0.5rem;
+  padding: 0.35rem 0.45rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.25rem;
+  gap: 0.15rem;
   backdrop-filter: blur(12px);
   position: relative;
   overflow: hidden;
@@ -403,11 +403,11 @@
 
 .score-value {
   font-family: var(--font-heading);
-  font-size: 1.6rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: #ffffff;
   line-height: 1;
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
 }
 
 /* ==========================================================================
@@ -417,16 +417,16 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.4rem;
 }
 
 .status-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   background: rgba(17, 24, 39, 0.9);
   border: 1px solid var(--border-active);
-  padding: 0.45rem 1.2rem;
+  padding: 0.3rem 1rem;
   border-radius: var(--radius-full);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(12px);
@@ -466,7 +466,7 @@
   width: 100%;
   max-width: var(--board-max-size);
   aspect-ratio: 1 / 1;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.45rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -658,21 +658,21 @@
 .action-toolbar {
   width: 100%;
   display: flex;
-  gap: 0.75rem;
+  gap: 0.65rem;
   justify-content: center;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.45rem;
 }
 
 .action-btn {
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: 0.825rem;
   font-weight: 700;
-  padding: 0.65rem 1.25rem;
+  padding: 0.45rem 1.1rem;
   border-radius: var(--radius-md);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   cursor: pointer;
   transition: all var(--transition-normal);
   border: 1px solid transparent;
@@ -722,8 +722,8 @@
 }
 
 .btn-icon {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 
@@ -733,20 +733,20 @@
 .app-footer {
   width: 100%;
   margin-top: auto;
-  padding-top: 0.75rem;
+  padding-top: 0.45rem;
   border-top: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.35rem;
 }
 
 .keyboard-hint {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.85rem;
-  font-size: 0.75rem;
+  gap: 0.65rem;
+  font-size: 0.72rem;
   color: var(--text-subtle);
 }
 
@@ -1195,5 +1195,43 @@
 
   .keyboard-hint {
     display: none;
+  }
+}
+
+@media (max-height: 780px) {
+  :root {
+    --board-max-size: min(270px, 75vw, 32vh);
+  }
+  .app-container {
+    padding: 0.35rem 0.85rem 0.45rem;
+  }
+}
+
+@media (max-height: 680px) {
+  :root {
+    --board-max-size: min(230px, 70vw, 28vh);
+  }
+  .keyboard-hint {
+    display: none;
+  }
+  .app-header {
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  .controls-panel {
+    margin-bottom: 0.25rem;
+    padding: 0.25rem 0.65rem;
+  }
+  .score-board {
+    margin-bottom: 0.25rem;
+  }
+  .status-indicator-bar {
+    margin-bottom: 0.25rem;
+  }
+  .board-wrapper {
+    margin-bottom: 0.25rem;
+  }
+  .action-toolbar {
+    margin-bottom: 0.35rem;
   }
 }

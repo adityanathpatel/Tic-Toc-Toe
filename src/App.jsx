@@ -5,11 +5,13 @@ import ScoreBoard from './components/ScoreBoard';
 import StatusIndicator from './components/StatusIndicator';
 import GameBoard from './components/GameBoard';
 import ActionToolbar from './components/ActionToolbar';
+import OnlineRoomPanel from './components/OnlineRoomPanel';
 import Footer from './components/Footer';
 import ResultModal from './components/ResultModal';
 import HelpModal from './components/HelpModal';
 import { checkWin, checkDraw, getBestMove } from './utils/minimax';
 import { sound } from './utils/sound';
+import { OnlineSession, generateRoomCode } from './utils/online';
 import './App.css';
 
 const STORAGE_KEY_SCORES = 'ttt_react_scores_v1';
@@ -23,6 +25,14 @@ export default function App() {
   const [aiDifficulty, setAiDifficulty] = useState(() => localStorage.getItem(STORAGE_KEY_DIFFICULTY) || 'unbeatable');
   const [humanSymbol, setHumanSymbol] = useState('X');
   const aiSymbol = humanSymbol === 'X' ? 'O' : 'X';
+
+  // Online Multiplayer State
+  const [onlineState, setOnlineState] = useState('idle'); // 'idle' | 'hosting' | 'joining' | 'connected'
+  const [roomCode, setRoomCode] = useState('');
+  const [onlineRole, setOnlineRole] = useState(null); // 'host' | 'guest'
+  const [incomingEmote, setIncomingEmote] = useState(null);
+  const [onlineErrorMessage, setOnlineErrorMessage] = useState('');
+  const onlineSessionRef = useRef(null);
 
   // Game Board & Play State
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -61,7 +71,7 @@ export default function App() {
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
 
-  // Keep a ref to board and active state for AI closure stability
+  // Keep a ref to board and active state for AI and P2P closure stability
   const boardRef = useRef(board);
   boardRef.current = board;
   const isGameActiveRef = useRef(isGameActive);
@@ -93,7 +103,6 @@ export default function App() {
 
   // Execute a valid move
   const executeMove = useCallback((index, player) => {
-    // Check if cell is occupied or game inactive
     if (boardRef.current[index] !== null || !isGameActiveRef.current) return;
 
     const nextBoard = [...boardRef.current];
@@ -143,6 +152,120 @@ export default function App() {
     setCurrentPlayer(player === 'X' ? 'O' : 'X');
   }, []);
 
+  // Handle Online P2P Messages
+  const handleOnlineMessage = useCallback((msg) => {
+    if (!msg || typeof msg !== 'object') return;
+
+    if (msg.type === 'MOVE') {
+      if (isGameActiveRef.current && boardRef.current[msg.index] === null) {
+        executeMove(msg.index, msg.symbol);
+      }
+    } else if (msg.type === 'RESTART') {
+      startRound('X', 'online');
+      sound.playClick();
+    } else if (msg.type === 'RESET_SCORES') {
+      setScores({ X: 0, O: 0, ties: 0 });
+      try {
+        localStorage.removeItem(STORAGE_KEY_SCORES);
+      } catch {}
+      sound.playClick();
+    } else if (msg.type === 'EMOTE') {
+      setIncomingEmote({ id: Date.now(), emoji: msg.emoji });
+      sound.playTone(600, 'sine', 0.1, 0.15);
+      setTimeout(() => setIncomingEmote(null), 3500);
+    }
+  }, [executeMove, startRound]);
+
+  // Host Online Room
+  const handleHostRoom = useCallback(() => {
+    if (onlineSessionRef.current) {
+      onlineSessionRef.current.destroy();
+      onlineSessionRef.current = null;
+    }
+
+    const newCode = generateRoomCode();
+    setRoomCode(newCode);
+    setOnlineRole('host');
+    setHumanSymbol('X');
+    setOnlineState('hosting');
+    setOnlineErrorMessage('');
+
+    onlineSessionRef.current = new OnlineSession({
+      role: 'host',
+      roomCode: newCode,
+      onConnected: () => {
+        setOnlineState('connected');
+        setOnlineErrorMessage('');
+        sound.playClick();
+        startRound('X', 'online');
+      },
+      onDisconnected: () => {
+        setOnlineState('hosting');
+        setOnlineErrorMessage('Opponent disconnected. Waiting for a player to rejoin...');
+      },
+      onMessage: handleOnlineMessage,
+      onError: (err) => {
+        setOnlineErrorMessage(err);
+      }
+    });
+  }, [handleOnlineMessage, startRound]);
+
+  // Join Online Room
+  const handleJoinRoom = useCallback((code) => {
+    if (onlineSessionRef.current) {
+      onlineSessionRef.current.destroy();
+      onlineSessionRef.current = null;
+    }
+
+    setRoomCode(code);
+    setOnlineRole('guest');
+    setHumanSymbol('O');
+    setOnlineState('joining');
+    setOnlineErrorMessage('');
+
+    onlineSessionRef.current = new OnlineSession({
+      role: 'guest',
+      roomCode: code,
+      onConnected: () => {
+        setOnlineState('connected');
+        setOnlineErrorMessage('');
+        sound.playClick();
+        startRound('X', 'online');
+      },
+      onDisconnected: () => {
+        setOnlineState('idle');
+        setOnlineErrorMessage('Disconnected from host.');
+      },
+      onMessage: handleOnlineMessage,
+      onError: (err) => {
+        setOnlineState('idle');
+        setOnlineErrorMessage(err);
+      }
+    });
+  }, [handleOnlineMessage, startRound]);
+
+  // Leave Online Room
+  const handleLeaveRoom = useCallback(() => {
+    if (onlineSessionRef.current) {
+      onlineSessionRef.current.destroy();
+      onlineSessionRef.current = null;
+    }
+    setOnlineState('idle');
+    setRoomCode('');
+    setOnlineRole(null);
+    setOnlineErrorMessage('');
+    startRound('X', 'pvc');
+    setGameMode('pvc');
+  }, [startRound]);
+
+  // Send Emote to Opponent
+  const handleSendEmote = useCallback((emoji) => {
+    if (onlineSessionRef.current && onlineState === 'connected') {
+      onlineSessionRef.current.send({ type: 'EMOTE', emoji });
+      sound.playTone(800, 'sine', 0.08, 0.12);
+    }
+  }, [onlineState]);
+
   // Handle cell interaction
   const handleCellClick = useCallback((index) => {
     if (!isGameActiveRef.current) {
@@ -159,10 +282,48 @@ export default function App() {
       return;
     }
 
-    executeMove(index, currentPlayer);
-  }, [gameMode, currentPlayer, humanSymbol, isAiThinking, executeMove]);
+    if (gameMode === 'online') {
+      if (onlineState !== 'connected') {
+        sound.playError();
+        return;
+      }
+      if (currentPlayer !== humanSymbol) {
+        sound.playError();
+        return;
+      }
+      onlineSessionRef.current?.send({
+        type: 'MOVE',
+        index,
+        symbol: humanSymbol
+      });
+    }
 
-  // AI Turn Trigger Effect
+    executeMove(index, currentPlayer);
+  }, [gameMode, onlineState, currentPlayer, humanSymbol, isAiThinking, executeMove]);
+
+  // Check room query parameter from URL on load (e.g. ?room=584920)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const roomParam = params.get('room');
+      if (roomParam && /^\d{6}$/.test(roomParam)) {
+        setGameMode('online');
+        setRoomCode(roomParam);
+        setOnlineState('idle');
+      }
+    } catch {}
+  }, []);
+
+  // Cleanup online session on unmount
+  useEffect(() => {
+    return () => {
+      if (onlineSessionRef.current) {
+        onlineSessionRef.current.destroy();
+      }
+    };
+  }, []);
+
+  // AI Turn Trigger Effect (only in PvC)
   useEffect(() => {
     if (
       gameMode === 'pvc' &&
@@ -198,10 +359,23 @@ export default function App() {
   // Mode change handler
   const handleModeChange = (newMode) => {
     if (newMode !== gameMode) {
+      if (gameMode === 'online' && onlineSessionRef.current) {
+        onlineSessionRef.current.destroy();
+        onlineSessionRef.current = null;
+        setOnlineState('idle');
+      }
+
       setGameMode(newMode);
       localStorage.setItem(STORAGE_KEY_MODE, newMode);
       sound.playClick();
-      startRound(humanSymbol, newMode);
+
+      if (newMode === 'online') {
+        if (!roomCode) {
+          handleHostRoom();
+        }
+      } else {
+        startRound(humanSymbol, newMode);
+      }
     }
   };
 
@@ -223,75 +397,84 @@ export default function App() {
 
   // Sound toggle handler
   const handleToggleSound = () => {
-    const nextVal = !soundEnabled;
-    setSoundEnabled(nextVal);
-    sound.enabled = nextVal;
-    localStorage.setItem(STORAGE_KEY_SOUND, nextVal ? 'true' : 'false');
-    if (nextVal) sound.playClick();
+    setSoundEnabled(prev => {
+      const next = !prev;
+      sound.enabled = next;
+      localStorage.setItem(STORAGE_KEY_SOUND, String(next));
+      if (next) sound.playClick();
+      return next;
+    });
   };
 
   // Reset scores handler
-  const handleResetScores = useCallback(() => {
-    const reset = { X: 0, O: 0, ties: 0 };
-    setScores(reset);
-    try {
-      localStorage.setItem(STORAGE_KEY_SCORES, JSON.stringify(reset));
-    } catch (e) {
-      console.error('Failed to reset scores in localStorage', e);
-    }
+  const handleResetScores = () => {
     sound.playClick();
-  }, []);
+    setScores({ X: 0, O: 0, ties: 0 });
+    try {
+      localStorage.removeItem(STORAGE_KEY_SCORES);
+    } catch {}
 
-  // Keyboard navigation & global shortcuts
+    if (gameMode === 'online' && onlineSessionRef.current) {
+      onlineSessionRef.current.send({ type: 'RESET_SCORES' });
+    }
+  };
+
+  // Global Keyboard Navigation
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+    const handleGlobalKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+        return;
+      }
 
+      // Close modal on Esc
       if (e.key === 'Escape') {
-        setIsResultModalOpen(false);
-        setIsHelpModalOpen(false);
+        if (isResultModalOpen) setIsResultModalOpen(false);
+        if (isHelpModalOpen) setIsHelpModalOpen(false);
         return;
       }
 
+      // Restart on 'r' or 'R'
       if (e.key === 'r' || e.key === 'R') {
-        e.preventDefault();
-        sound.playClick();
-        startRound();
+        if (isGameActive && !isAiThinking) {
+          sound.playClick();
+          if (gameMode === 'online' && onlineSessionRef.current) {
+            onlineSessionRef.current.send({ type: 'RESTART' });
+          }
+          startRound();
+        }
         return;
       }
 
+      // Sound mute toggle on 'm' or 'M'
       if (e.key === 'm' || e.key === 'M') {
-        e.preventDefault();
         handleToggleSound();
         return;
       }
 
+      // 1-9 direct cell placement
       const num = parseInt(e.key, 10);
-      if (num >= 1 && num <= 9) {
-        e.preventDefault();
-        handleCellClick(num - 1);
+      if (!isNaN(num) && num >= 1 && num <= 9) {
+        const cellIndex = num - 1;
+        handleCellClick(cellIndex);
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [startRound, handleToggleSound, handleCellClick]);
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [isResultModalOpen, isHelpModalOpen, isGameActive, isAiThinking, handleCellClick, startRound, gameMode]);
 
   return (
     <>
-      <div className="app-background">
-        <div className="ambient-glow glow-1" aria-hidden="true"></div>
-        <div className="ambient-glow glow-2" aria-hidden="true"></div>
+      <div className="app-background" aria-hidden="true">
+        <div className="ambient-glow glow-1"></div>
+        <div className="ambient-glow glow-2"></div>
       </div>
 
       <div className="app-container">
         <Header
           soundEnabled={soundEnabled}
           onToggleSound={handleToggleSound}
-          onOpenHelp={() => {
-            sound.playClick();
-            setIsHelpModalOpen(true);
-          }}
+          onOpenHelp={() => setIsHelpModalOpen(true)}
         />
 
         <ControlsPanel
@@ -303,43 +486,67 @@ export default function App() {
           onSymbolChange={handleSymbolChange}
         />
 
-        <ScoreBoard
-          scores={scores}
-          currentPlayer={currentPlayer}
-          isGameActive={isGameActive}
-          gameMode={gameMode}
-          humanSymbol={humanSymbol}
-        />
+        {/* Online Room Management Panel */}
+        {gameMode === 'online' && (
+          <OnlineRoomPanel
+            onlineState={onlineState}
+            roomCode={roomCode}
+            role={onlineRole}
+            onHostRoom={handleHostRoom}
+            onJoinRoom={handleJoinRoom}
+            onLeaveRoom={handleLeaveRoom}
+            onSendEmote={handleSendEmote}
+            incomingEmote={incomingEmote}
+            errorMessage={onlineErrorMessage}
+            onClearError={() => setOnlineErrorMessage('')}
+          />
+        )}
 
-        <StatusIndicator
-          currentPlayer={currentPlayer}
-          isGameActive={isGameActive}
-          isAiThinking={isAiThinking}
-          winner={winner}
-          isDraw={isDraw}
-          gameMode={gameMode}
-          humanSymbol={humanSymbol}
-        />
+        {/* Board and gameplay elements (visible in local modes OR when connected online) */}
+        {(gameMode !== 'online' || onlineState === 'connected') && (
+          <>
+            <ScoreBoard
+              scores={scores}
+              currentPlayer={currentPlayer}
+              isGameActive={isGameActive}
+              gameMode={gameMode}
+              humanSymbol={humanSymbol}
+            />
 
-        <GameBoard
-          board={board}
-          onCellClick={handleCellClick}
-          winningLine={winningLine}
-          winner={winner}
-          currentPlayer={currentPlayer}
-          isGameActive={isGameActive}
-          gameMode={gameMode}
-          humanSymbol={humanSymbol}
-          isAiThinking={isAiThinking}
-        />
+            <StatusIndicator
+              currentPlayer={currentPlayer}
+              isGameActive={isGameActive}
+              isAiThinking={isAiThinking}
+              winner={winner}
+              isDraw={isDraw}
+              gameMode={gameMode}
+              humanSymbol={humanSymbol}
+            />
 
-        <ActionToolbar
-          onRestart={() => {
-            sound.playClick();
-            startRound();
-          }}
-          onResetScores={handleResetScores}
-        />
+            <GameBoard
+              board={board}
+              onCellClick={handleCellClick}
+              winningLine={winningLine}
+              winner={winner}
+              currentPlayer={currentPlayer}
+              isGameActive={isGameActive}
+              gameMode={gameMode}
+              humanSymbol={humanSymbol}
+              isAiThinking={isAiThinking}
+            />
+
+            <ActionToolbar
+              onRestart={() => {
+                sound.playClick();
+                if (gameMode === 'online' && onlineSessionRef.current) {
+                  onlineSessionRef.current.send({ type: 'RESTART' });
+                }
+                startRound();
+              }}
+              onResetScores={handleResetScores}
+            />
+          </>
+        )}
 
         <Footer onOpenHelp={() => setIsHelpModalOpen(true)} />
       </div>
@@ -353,6 +560,9 @@ export default function App() {
         humanSymbol={humanSymbol}
         onPlayAgain={() => {
           sound.playClick();
+          if (gameMode === 'online' && onlineSessionRef.current) {
+            onlineSessionRef.current.send({ type: 'RESTART' });
+          }
           startRound();
         }}
         onClose={() => setIsResultModalOpen(false)}

@@ -52,6 +52,7 @@ Make sure you have [Node.js](https://nodejs.org/) (v18 or higher) installed on y
 ## ✨ Features
 
 - **Game Modes**:
+  - **Play Online (P2P Multiplayer)**: Generate a unique 6-digit room code, share the code or direct invite link (`?room=123456`) with a friend, and play in real time with instant WebRTC DataChannel connection and live reaction emotes!
   - **vs Computer**: Play against AI with 3 levels (*Unbeatable Minimax*, *Challenging*, *Casual*).
   - **2 Players**: Pass-and-play on the same device.
 - **Side Choice**: Play as **X** (goes first) or **O** (goes second; computer makes the opening move).

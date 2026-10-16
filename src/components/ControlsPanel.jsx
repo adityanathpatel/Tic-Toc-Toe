@@ -45,6 +45,21 @@ export default function ControlsPanel({
             </svg>
             <span>2 Players</span>
           </button>
+          <button
+            type="button"
+            id="modeOnlineBtn"
+            className={`pill-btn ${gameMode === 'online' ? 'active' : ''}`}
+            role="radio"
+            aria-checked={gameMode === 'online'}
+            onClick={() => onModeChange('online')}
+          >
+            <svg className="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>Play Online</span>
+          </button>
         </div>
       </div>
 

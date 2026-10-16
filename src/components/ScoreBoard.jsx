@@ -15,7 +15,19 @@ export default function ScoreBoard({
   let oName = 'Player 2';
   let oRole = 'Plays O';
 
-  if (gameMode === 'pvc') {
+  if (gameMode === 'online') {
+    if (humanSymbol === 'X') {
+      xName = 'You';
+      xRole = 'Host (X)';
+      oName = 'Opponent';
+      oRole = 'Guest (O)';
+    } else {
+      xName = 'Opponent';
+      xRole = 'Host (X)';
+      oName = 'You';
+      oRole = 'Guest (O)';
+    }
+  } else if (gameMode === 'pvc') {
     if (humanSymbol === 'X') {
       xName = 'Player X';
       xRole = 'You';

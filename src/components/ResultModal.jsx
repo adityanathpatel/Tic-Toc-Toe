@@ -43,7 +43,15 @@ export default function ResultModal({
     if (winner === 'X') badgeClass += ' x-winner';
     else badgeClass += ' o-winner';
 
-    if (gameMode === 'pvc') {
+    if (gameMode === 'online') {
+      if (winner === humanSymbol) {
+        heading = 'You Won!';
+        subtext = 'Outstanding! You defeated your online opponent!';
+      } else {
+        heading = 'Opponent Won!';
+        subtext = 'Your opponent took victory this round. Ready for a rematch?';
+      }
+    } else if (gameMode === 'pvc') {
       if (winner === humanSymbol) {
         heading = 'You Won!';
         subtext = 'Incredible! You defeated the computer!';

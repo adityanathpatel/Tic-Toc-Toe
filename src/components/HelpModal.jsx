@@ -39,6 +39,13 @@ export default function HelpModal({ isOpen, onClose }) {
           </section>
 
           <section className="help-section">
+            <h3>Online Multiplayer (P2P)</h3>
+            <p>
+              Select <strong>Play Online</strong> to generate a 6-digit room code. Share the code or invite link with a friend. Once they enter the code, you'll be connected in real time with zero server lag!
+            </p>
+          </section>
+
+          <section className="help-section">
             <h3>Unbeatable AI (Minimax)</h3>
             <p>
               The <em>Unbeatable</em> difficulty employs the recursive <strong>Minimax decision algorithm</strong> with alpha-beta pruning. It simulates all possible future moves to ensure optimal defense and attack. It is mathematically impossible to defeat—can you earn a draw?

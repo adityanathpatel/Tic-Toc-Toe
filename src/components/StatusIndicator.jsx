@@ -14,6 +14,9 @@ export default function StatusIndicator({
   let dotStyle = {};
 
   const getDisplayName = (symbol) => {
+    if (gameMode === 'online') {
+      return symbol === humanSymbol ? 'You' : 'Opponent';
+    }
     if (gameMode === 'pvc') {
       return symbol === humanSymbol ? 'You' : 'Computer';
     }
